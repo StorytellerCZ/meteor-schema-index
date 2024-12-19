@@ -6,17 +6,32 @@ import "./common";
 Collection2.on('schema.attached', (collection, ss) => {
   function ensureIndex(index, options) {
     Meteor.startup(() => {
-      collection._collection._ensureIndex(index, {
-        background: true,
-        ...options,
-      });
+      if (collection._collection.createIndex) {
+        collection._collection.createIndex(index, {
+          background: true,
+          name,
+          unique,
+          sparse,
+        });
+      } else {
+        collection._collection._ensureIndex(index, {
+          background: true,
+          name,
+          unique,
+          sparse,
+        });
+      }
     });
   }
 
   function dropIndex(indexName) {
     Meteor.startup(() => {
       try {
-        collection._collection._dropIndex(indexName);
+        if (collection._collection.dropIndex) {
+          collection._collection.dropIndex(indexName);
+        } else {
+          collection._collection._dropIndex(indexName);
+        }
       } catch (err) {
         // no index with that name, which is what we want
       }

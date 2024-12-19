@@ -1,8 +1,13 @@
 # Change Log
 
-## 3.1.0
+## 3.2.0
 
 Add text index options
+
+## 3.1.0
+
+Update dependencies (`aldeed:collection2@3.5.0`, `ecmascript` according to Meteor version)
+Index creation and dropping has been updated to use newer API if available
 
 ## 3.0.0
 
